@@ -18,19 +18,13 @@ class GameScene: SKScene {
     
     var paths = [SKShapeNode]()
     
+    var square : SKSpriteNode!
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
-        path = CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, 150, 135)
-        CGPathAddLineToPoint(path, nil, 430, 135)
-        let shape = SKShapeNode()
-        shape.path = path
-        shape.physicsBody?.collisionBitMask = UINT32_MAX
-        shape.physicsBody?.contactTestBitMask = 0
-        shape.physicsBody?.categoryBitMask = UINT32_MAX
-        shape.physicsBody?.fieldBitMask = UINT32_MAX
-        addChild(shape)
+        square = childNodeWithName("square") as! SKSpriteNode
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -62,10 +56,7 @@ class GameScene: SKScene {
         shape.strokeColor = UIColor.blackColor()
         shape.lineWidth = 2
         paths.append(shape)
-        shape.physicsBody?.contactTestBitMask = 1
-        shape.physicsBody?.affectedByGravity = true
-        shape.physicsBody?.dynamic = true
-        shape.physicsBody?.allowsRotation = true
+        shape.physicsBody = SKPhysicsBody(edgeFromPoint: currentPoint, toPoint: lastPoint)
         addChild(shape)
         
         
