@@ -17,6 +17,7 @@
 		F33C3B121D2DB82C0061F4B9 /* drawingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C3B111D2DB82C0061F4B9 /* drawingTests.swift */; };
 		F33C3B1D1D2DB82D0061F4B9 /* drawingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C3B1C1D2DB82D0061F4B9 /* drawingUITests.swift */; };
 		F33C3B2D1D2DCE870061F4B9 /* RecognizeShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C3B2C1D2DCE870061F4B9 /* RecognizeShape.swift */; };
+		F33C3B2F1D2EC2030061F4B9 /* MSButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C3B2E1D2EC2030061F4B9 /* MSButtonNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		F33C3B1C1D2DB82D0061F4B9 /* drawingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = drawingUITests.swift; sourceTree = "<group>"; };
 		F33C3B1E1D2DB82D0061F4B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F33C3B2C1D2DCE870061F4B9 /* RecognizeShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecognizeShape.swift; sourceTree = "<group>"; };
+		F33C3B2E1D2EC2030061F4B9 /* MSButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSButtonNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				F33C3AFC1D2DB82C0061F4B9 /* GameScene.swift */,
 				F33C3AFE1D2DB82C0061F4B9 /* GameViewController.swift */,
 				F33C3B001D2DB82C0061F4B9 /* Main.storyboard */,
+				F33C3B2E1D2EC2030061F4B9 /* MSButtonNode.swift */,
 				F33C3B031D2DB82C0061F4B9 /* Assets.xcassets */,
 				F33C3B051D2DB82C0061F4B9 /* LaunchScreen.storyboard */,
 				F33C3B081D2DB82C0061F4B9 /* Info.plist */,
@@ -270,6 +273,7 @@
 				F33C3AFF1D2DB82C0061F4B9 /* GameViewController.swift in Sources */,
 				F33C3B2D1D2DCE870061F4B9 /* RecognizeShape.swift in Sources */,
 				F33C3AF91D2DB82C0061F4B9 /* AppDelegate.swift in Sources */,
+				F33C3B2F1D2EC2030061F4B9 /* MSButtonNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
