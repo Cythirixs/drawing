@@ -26,9 +26,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var square : SKSpriteNode!
     var jumpButton : MSButtonNode!
     var restartButton : MSButtonNode!
-    var goal : SKSpriteNode!
+    var goal1 : SKSpriteNode!
+    var goal2 : SKSpriteNode!
     
     var currentState:state = .playing
+    
+    var goalNum = 0
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -45,16 +48,24 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         restartButton = childNodeWithName("restartButton") as! MSButtonNode
         restartButton.selectedHandler = {
-            self.removeChildrenInArray(self.paths)
-            self.paths.removeAll()
-            self.count = 0
             
-            self.childNodeWithName("square")?.position = CGPoint(x: 66, y: 65)
-            self.restartButton.state = .Hidden
+            /* Grab reference to our SpriteKit view */
+            let skView = self.view as SKView!
+            
+            /* Load Game scene */
+            let scene = GameScene(fileNamed:"GameScene") as GameScene!
+            
+            /* Ensure correct aspect mode */
+            scene.scaleMode = .AspectFill
+            
+            /* Restart game scene */
+            skView.presentScene(scene)
             
         }
         
-        goal = childNodeWithName("goal") as! SKSpriteNode
+        goal1 = childNodeWithName("goal1") as! SKSpriteNode
+        goal2 = childNodeWithName("goal2") as! SKSpriteNode
+
         
         restartButton.state = .Hidden
         
@@ -93,7 +104,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         let shape = SKShapeNode()
         shape.path = path
-        shape.strokeColor = UIColor.blackColor()
+        shape.strokeColor = UIColor.blueColor()
         shape.lineWidth = 2
         paths.append(shape)
         shape.physicsBody = SKPhysicsBody(edgeFromPoint: currentPoint, toPoint: lastPoint)
@@ -112,18 +123,35 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         let nodeA = contactA.node!
         let nodeB = contactB.node!
         
-        if nodeA.name == "goal" || nodeB.name == "goal" {
-           currentState = .ended
-           restartButton.state = .Active
-            goal.runAction(SKAction(named: "Winning")!)
+        if ((nodeA.name == "goal1" || nodeA.name == "goal2") && nodeB.name == "square") || ((nodeB.name == "goal1" || nodeB.name == "goal2") && nodeA.name == "square") {
+           
+           if (nodeA.name == "goal1" || nodeB.name == "goal1") && !goal1.hasActions(){
+            goal1.runAction(SKAction(named: "Winning")!)
+            goalNum += 1
+
+            }
+           else if (nodeA.name == "goal2" || nodeB.name == "goal2") && !goal2.hasActions(){
+            goal2.runAction(SKAction(named: "Winning")!)
+            goalNum += 1
+
+            }
+            
+            
         }
         
+        if goalNum == 2{
+            currentState = .ended
+            restartButton.state = .Active
+        }
         
         
     }
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        if square.position.x < -10 || square.position.x > 578{
+            restartButton.state = .Active
+        }
         
     }
 }
