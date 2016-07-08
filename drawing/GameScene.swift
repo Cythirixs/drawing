@@ -11,7 +11,7 @@ import SpriteKit
 class GameScene: SKScene , SKPhysicsContactDelegate{
     
     enum state{
-        case draw, move
+        case playing, ended
     }
     
     var touch : UITouch!
@@ -24,25 +24,48 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var count = 0
     
     var square : SKSpriteNode!
-    var changeButton : MSButtonNode!
+    var jumpButton : MSButtonNode!
+    var restartButton : MSButtonNode!
+    var goal : SKSpriteNode!
     
-    var currentState:state = .draw
+    var currentState:state = .playing
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
+        physicsWorld.contactDelegate = self
+        
         square = childNodeWithName("square") as! SKSpriteNode
-        changeButton = childNodeWithName("switch") as! MSButtonNode
-        changeButton.selectedHandler = {
+        jumpButton = childNodeWithName("jump") as! MSButtonNode
+        jumpButton.selectedHandler = {
+            if self.currentState == .ended {return}
             self.square.physicsBody?.velocity = CGVectorMake(0, 0)
-            
-            self.square.physicsBody?.applyImpulse(CGVectorMake(0, 30))
+            self.square.physicsBody?.applyImpulse(CGVectorMake(0, 40))
         }
+        
+        restartButton = childNodeWithName("restartButton") as! MSButtonNode
+        restartButton.selectedHandler = {
+            self.removeChildrenInArray(self.paths)
+            self.paths.removeAll()
+            self.count = 0
+            
+            self.childNodeWithName("square")?.position = CGPoint(x: 66, y: 65)
+            self.restartButton.state = .Hidden
+            
+        }
+        
+        goal = childNodeWithName("goal") as! SKSpriteNode
+        
+        restartButton.state = .Hidden
+        
+        
         
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
+        if currentState != .playing {return}
+        
         if count > 3{
             removeChildrenInArray(paths)
             count = 0
@@ -55,6 +78,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if currentState != .playing {return}
+
         touch = touches.first
         currentPoint = lastPoint
         lastPoint = touch.locationInNode(self)
@@ -78,18 +103,21 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func didBeginContact(contact: SKPhysicsContact){
-        print("enter")
+        
+        if currentState != .playing {return}
+        
         let contactA:SKPhysicsBody = contact.bodyA
         let contactB:SKPhysicsBody = contact.bodyB
         
-        /* Get references to the physics body parent nodes */
         let nodeA = contactA.node!
         let nodeB = contactB.node!
         
-        /* Did our hero pass through the 'goal'? */
         if nodeA.name == "goal" || nodeB.name == "goal" {
-            print("you win")
+           currentState = .ended
+           restartButton.state = .Active
+            goal.runAction(SKAction(named: "Winning")!)
         }
+        
         
         
     }
